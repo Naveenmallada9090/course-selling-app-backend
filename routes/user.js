@@ -43,12 +43,18 @@ const userRouter = Router();
             message: "incorrect credentials"
         }) 
     }
-    })
+})
 
-    userRouter.get("/purchases", function(req, res) {
-        res.json({
-            message: "signup endpoint"
-        })
+userRouter.get("/purchases", userMiddleware, async function(req, res) {
+      const userId =req.userId;
+
+      const purchases = await purchaseModel.find({
+        userId,
+      })
+
+      res.json({
+        purchases
+      })
     })
 
 module.exports = {
